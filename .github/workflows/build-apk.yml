@@ -1,0 +1,43 @@
+name: Build BARBER SAEED APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'BARBER_SAEED_final_development.zip'
+      - '.github/workflows/build-apk.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract project
+        run: |
+          unzip -q BARBER_SAEED_final_development.zip -d extracted
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Prepare Android project
+        working-directory: extracted/barber_saeed_project/mobile
+        run: flutter create --platforms=android .
+
+      - name: Get dependencies
+        working-directory: extracted/barber_saeed_project/mobile
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: extracted/barber_saeed_project/mobile
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BARBER-SAEED-APK
+          path: extracted/barber_saeed_project/mobile/build/app/outputs/flutter-apk/app-release.apk
