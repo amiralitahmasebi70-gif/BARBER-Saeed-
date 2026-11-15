@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'BARBER_SAEED_final_development.zip'
+      - 'BARBER_SAEED_fixed_rtl.zip'
       - '.github/workflows/build-apk.yml'
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
 
       - name: Extract project
         run: |
-          unzip -q BARBER_SAEED_final_development.zip -d extracted
+          unzip -q BARBER_SAEED_fixed_rtl.zip -d extracted
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
